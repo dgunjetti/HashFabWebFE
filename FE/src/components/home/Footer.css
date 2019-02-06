@@ -1,0 +1,17 @@
+.footer-section a {
+	color: #fff;
+	padding-top: 0.3em;
+}
+
+.footer-section a:hover {
+	color: #fff;
+	text-decoration: none
+}
+
+#about-section {
+	background-color: #777;
+}
+
+#copyright-section {
+	background-color: #5b5b5b;
+}

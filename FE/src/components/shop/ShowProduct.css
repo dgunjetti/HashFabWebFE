@@ -1,0 +1,91 @@
+
+.price {
+	color: #111;
+	font-weight: bold;
+	font-size: 1.3em;
+}
+
+.prod-modal-dimension {
+  width: 60vw;
+  max-width: 60vw;
+} 
+
+.cross {
+	font-size: 1.8rem;
+	outline: none !important;
+}
+
+.divider {
+	height: 3px;
+	display: block;
+	background-color: rgba(0,0,0,0.1);
+	margin:1em 0 1em;
+	width: 100%;
+	max-width: 30px;
+}
+
+.add-to-cart-button {
+	background-color: #D26E4B;
+	color: #fff;
+	font-size: 1em;
+}
+
+.add-to-cart-button:focus {
+  outline: none;
+}
+
+.quantity {
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+  border-radius: 0;
+	color: #666;
+}
+
+.quantity-buttons {
+	background: #f9f9f9;
+	outline: none !important;
+  box-shadow: none;
+}
+
+.quantity-buttons:hover {
+	cursor: pointer;
+}
+
+.quantity-container {
+	display: flex;
+	flex-direction: row;
+	align-items: flex-center;
+}
+
+.modal-category {
+  opacity: 0.7em;
+  font-size: 0.9em;
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
+.breadcrumb {
+	background-color: #fff;
+	text-transform: uppercase;
+}
+
+.breadcrumb-item a {
+	color: rgba(102,102,102,0.7) ;
+	text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+	color: #111 !important;
+}
+
+.carousel {
+	interval: false
+}
+

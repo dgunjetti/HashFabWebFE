@@ -1,0 +1,217 @@
+import React, { Component} from 'react'
+import './Navbar.css'
+import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
+import { getShoppingCart } from '../store/actions/shoppingCart'
+import { logout } from '../store/actions/auth'
+import Modal from 'react-modal';
+import FacebookLogin from 'react-facebook-login';
+import GoogleLogin from 'react-google-login';
+import config from '../config.json';
+import FontAwesome from 'react-fontawesome'
+import "../components/Login.css"
+import LogIn from '../components/LogIn'
+
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};
+
+var appElement = document.getElementById('root')
+
+Modal.setAppElement(appElement)
+
+class Navbar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { modalIsOpen: false };
+  }
+
+  openModal = () => {
+    this.setState({modalIsOpen: true});
+  }
+
+  closeModal = () => {
+    this.setState({modalIsOpen: false});
+  }
+
+  handleModalCloseRequest = () => {
+    // opportunity to validate something and keep the modal open even if it
+    // requested to be closed
+    this.setState({modalIsOpen: false});
+  }
+
+  handleSaveClicked = (e) => {
+    alert('Save button was clicked');
+  }
+
+	logout = e => {
+		e.preventDefault();
+		this.props.logout();
+		this.props.history.push("/");
+	}
+
+	responseFacebook = (response) => {
+		console.log(response);
+		const token = {
+			access_token: response.accessToken
+		}
+		console.log(token);
+		this.props.onAuth("facebook", token).then(() => {
+    	if (this.props.products === undefined) {
+    		this.props.history.push("/");
+    	} else {
+    		if (this.props.products.length  > 0) {
+      		this.props.history.push("/buy/payselect");
+      	} else {
+      		this.props.history.push("/");
+      	}
+      }
+    }).catch(err => {
+    	return;
+    });
+	}
+	responseGoogle = (response) => {
+  	console.log(response);
+    console.log(response.tokenObj.access_token);
+    const token = {
+			access_token: response.tokenObj.access_token
+		}
+    this.props.onAuth("google", token).then(() => {
+    	if (this.props.products === undefined) {
+    		this.props.history.push("/");
+    	} else {
+    		if (this.props.products.length  > 0) {
+      		this.props.history.push("/buy/payselect");
+      	} else {
+      		this.props.history.push("/");
+      	}
+      }
+    }).catch(err => {
+    	return;
+    });
+  }
+
+	renderModal = () => {
+		return (
+      <Modal
+        className="Modal__Bootstrap modal-dialog"
+        closeTimeoutMS={150}
+        isOpen={this.state.modalIsOpen}
+        onRequestClose={this.handleModalCloseRequest}
+      >
+        <div className="modal-content">
+          <div className="modal-header bg-light">
+            <h5 className="modal-title ">Log in to Your HashFAB Account </h5>
+            <button type="button" className="close" onClick={this.handleModalCloseRequest}>
+              <span aria-hidden="true">&times;</span>
+              <span className="sr-only">Close</span>
+            </button>
+          </div>
+          <div className="modal-body">
+          	<div className="d-flex flex-column text-center">
+	          	<FacebookLogin
+						    appId={config.FACEBOOK_APP_ID}
+						    autoLoad={false}
+						    fields="name,email,picture"
+						    callback={this.responseFacebook} 
+								cssClass="my-facebook-button-class"
+								icon="fa-facebook"
+								textButton="Continue with Facebook"
+						    />
+						   <div className="mb-3"></div>
+					    <GoogleLogin
+						    clientId={config.GOOGLE_CLIENT_ID}
+						    onSuccess={this.responseGoogle}
+						    onFailure={this.responseGoogle}
+						    className="my-google-button-class"
+						  	>
+						  	<FontAwesome
+	      					name='google'
+	    					/>
+	    					<span>Continue with Google</span>
+	  						</GoogleLogin>
+	  					<div className="mb-3"></div>
+  					</div>
+  						<form>
+  							<div className="form-group">
+  								<label htmlFor="email" className="sr-only">Email</label>
+  								<input type="text" className="form-control form-control-lg" placeholder="E-mail"/>
+  							</div>
+  							<div className="form-group">
+  								<label htmlFor="password" className="sr-only">Password</label>
+  								<input type="password" className="form-control form-control-lg" placeholder="Password"/>
+  							</div>
+
+  							<input type="submit" className="btn btn-primary btn-lg btn-block" value="Log In"/>
+
+  						</form>
+          </div>
+          <div className="modal-footer text-center">
+ 	        	Don't have an account? <Link to="/signup"> Sign up> </Link>
+ 	        </div>
+        </div>
+      </Modal>
+ 		);
+	}
+
+	render() {
+		let count = 0;
+		const { onAuth, errors, removeError } = this.props;
+
+		if (this.props.products !== undefined) {
+			count = this.props.products.length;
+		}
+
+		const { currentCustomer } = this.props;
+		return (
+			<nav className="navbar navbar-expand">
+				<div className="container-fluid">
+					<Link to="/" className="navbar-brand">#FAB</Link>
+					{currentCustomer.isAuthenticated ? (
+						<ul className="nav navbar-nav navbar-right">
+							<li>Hi {currentCustomer.customer.name} </li>
+							<li><a onClick={this.logout}>Logout</a></li>
+						</ul>
+						) : (
+							<ul className="nav navbar-nav navbar-right">
+								<li>
+								
+									<a onClick={
+										<LogIn 
+          						{...props} 
+          						onAuth={onAuth}
+          						errors={errors}
+              				removeError={removeError}
+          					/>
+          					}>Log in</a>
+									
+								</li>
+								<li>
+									<Link to="/signup">Sign up</Link>		
+								</li>
+								<li>
+									<Link to="/shoppingcart">Cart({count})</Link>
+								</li>
+							</ul>
+						)}
+				</div>
+			</nav>
+		);
+	}
+}
+
+function mapStateToProps(state) {
+  return {
+    products: state.shoppingCart.products,
+    currentCustomer: state.currentCustomer
+  }
+}
+
+export default connect(mapStateToProps, { getShoppingCart, logout })(Navbar);

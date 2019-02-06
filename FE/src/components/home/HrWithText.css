@@ -1,0 +1,28 @@
+.category {
+  position: relative;
+  text-align: center;
+  margin-top: 50px;
+}
+
+.category span {
+  background: #fff;
+  padding: 0 15px;
+  position: relative;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.category:before {
+  background: #ddd;
+  content: "";
+  display: block;
+  height: 1px;
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  z-index: -1;
+}
+.category:before {
+  left: 0;
+}
+

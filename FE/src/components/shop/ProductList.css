@@ -1,0 +1,13 @@
+.product-list {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+@media(max-width: 580px) {
+	.product-list {
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+}

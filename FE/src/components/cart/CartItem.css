@@ -1,0 +1,26 @@
+.cart-item {
+	justify-content: space-between;
+	border-bottom: 1px solid rgb(236, 236, 236);
+}
+
+.cart-item td {
+	padding: 1em 0;
+}
+.fa-times-circle-o {
+	font-size: 1.8rem;
+	color: rgba(102,102,102,0.7);
+}
+
+.cart-remove:hover {
+	opacity: 1;
+	color: #111;
+}
+
+.tab-cart {
+	padding-top: 1em;
+	border-top: 1px solid rgb(236, 236, 236);
+}
+
+.tab-cart:first-child {
+	border-top: 3px solid rgb(236, 236, 236);
+}

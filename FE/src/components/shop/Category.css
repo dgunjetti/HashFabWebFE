@@ -1,0 +1,19 @@
+.btn.box {
+	opacity: 0.95;
+	position: absolute;
+	bottom: 15%;
+	font-size: 0.9rem;
+}
+
+.category-box:hover {
+  box-shadow: 0 0 11px rgba(33,33,33,.2); 
+}
+
+.box-product:hover {
+  box-shadow: none; 
+}
+
+.box-text p:hover {
+	cursor: pointer;
+	box-shadow: none !important; 
+} 

@@ -1,0 +1,54 @@
+.my-facebook-button-class {
+	background: #1a538a;
+	color:#fff;
+	font-size: 1rem;
+	padding: 10px;
+	opacity:0.8;
+	border-radius: 5px;
+	width: 100%;
+}
+
+.my-facebook-button-class i {
+	margin-right: 1rem;
+	margin-left: 0.5rem;
+	font-size: 1.3rem;
+}
+
+.my-facebook-button-class:hover {
+	opacity: 1;
+	cursor: pointer;
+}
+
+.my-google-button-class {
+	background: #fff;
+	color: #686f7a;
+	font-size: 1rem;
+	padding: 10px;
+	opacity:0.8;
+	border-radius: 5px;
+	width: 100%;
+	border-radius: 0;
+}
+
+.my-google-button-class .svg {
+	margin-right: 1rem;
+	margin-left: 0.5rem;
+	font-size: 1.3rem;
+}
+
+.my-google-button-class:hover {
+	opacity: 1;
+	background: #e8ecf2;
+	cursor: pointer;
+}
+
+/*
+.login-modal-dimension {
+  width: 30vw;
+  max-width: 30vw;
+} 
+*/
+
+.modal-footer {
+	text-align: center !important;
+}

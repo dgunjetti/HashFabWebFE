@@ -1,0 +1,169 @@
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import './SignUp.css'
+import { Link } from 'react-router-dom'
+import { getPreOrderCart } from '../store/actions/preOrderCart'
+import FacebookLogin from 'react-facebook-login';
+import GoogleLogin from 'react-google-login';
+import config from '../config.json';
+import FontAwesome from 'react-fontawesome'
+import "./Login.css"
+
+
+class LogIn extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			userid: "",
+			password: "",
+			isAuthenticated: false,
+			token: ""
+		}
+		this.handleSubmit = this.handleSubmit.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+		this.responseFacebook = this.responseFacebook.bind(this);
+		this.responseGoogle = this.responseGoogle.bind(this);
+	}
+
+	handleSubmit = e => {
+		e.preventDefault();
+    this.props.onAuth("login", this.state).then(() => {
+    	if (this.props.products === undefined) {
+    		this.props.history.push("/");
+    	} else {
+    		if (this.props.products.length  > 0) {
+      		this.props.history.push("/buy/payselect");
+      	} else {
+      		this.props.history.push("/");
+      	}
+      }
+    }).catch(err => {
+    	return;
+    });
+	}
+
+	handleChange = e => {
+		this.setState({
+			[e.target.name]: e.target.value
+		});
+	}
+
+	responseFacebook = (response) => {
+		console.log(response);
+		const token = {
+			access_token: response.accessToken
+		}
+		console.log(token);
+		this.props.onAuth("facebook", token).then(() => {
+    	if (this.props.products === undefined) {
+    		this.props.history.push("/");
+    	} else {
+    		if (this.props.products.length  > 0) {
+      		this.props.history.push("/buy/payselect");
+      	} else {
+      		this.props.history.push("/");
+      	}
+      }
+    }).catch(err => {
+    	return;
+    });
+	}
+
+
+  responseGoogle = (response) => {
+  	console.log(response);
+    console.log(response.tokenObj.access_token);
+    const token = {
+			access_token: response.tokenObj.access_token
+		}
+    this.props.onAuth("google", token).then(() => {
+    	if (this.props.products === undefined) {
+    		this.props.history.push("/");
+    	} else {
+    		if (this.props.products.length  > 0) {
+      		this.props.history.push("/buy/payselect");
+      	} else {
+      		this.props.history.push("/");
+      	}
+      }
+    }).catch(err => {
+    	return;
+    });
+  }
+
+	render() {
+		const { userid, password } = this.state;
+		const { errors, history, removeError } = this.props;
+
+		history.listen(() => {
+			removeError();
+		}); 
+
+
+
+		return (
+			<section id="login" className="py-5">
+				<div className="container">
+					<div className="row justify-content-md-center">
+						<div className="col-md-6">
+							<form onSubmit={this.handleSubmit}>
+								<h2 className="title text-center mb-3">Log In</h2>
+								{ errors.message && (
+									<div className="alert alert-danger text-center">{errors.message}</div>
+								)}
+								<div className="form-group">
+	  							<label htmlFor="userid sr-only">Email or Mobile Number</label>
+	  							<input id="userid" name="userid" 
+	  							className="form-control" onChange={this.handleChange} 
+	  							placeholder="Enter Email or Mobile Number" value={userid}/>	
+	  						</div>
+	  						<div className="form-group">
+	  							<label htmlFor="password sr-only">Password</label>
+	  							<input id="password" type="password" name="password" 
+	  							className="form-control" onChange={this.handleChange} 
+	  							placeholder="Password"value={password}/>
+								</div>	
+								<button type="submit" className="btn btn-primary btn-block btn-lg my-5">Log In</button>
+							</form>
+
+							<FacebookLogin
+					    appId={config.FACEBOOK_APP_ID}
+					    autoLoad={false}
+					    fields="name,email,picture"
+					    callback={this.responseFacebook} 
+							cssClass="my-facebook-button-class"
+							icon="fa-facebook"
+							textButton="Continue with Facebook"
+					    />
+
+				     <GoogleLogin
+					    clientId={config.GOOGLE_CLIENT_ID}
+					    buttonText="Login"
+					    onSuccess={this.responseGoogle}
+					    onFailure={this.responseGoogle}
+					    className="my-google-button-class"
+					  	>
+					  	<FontAwesome
+      					name='google'
+    					/>
+    					<span> Continue with Google</span>
+  						</GoogleLogin>
+						  
+						  <div className="mt-5">
+						  	Don't have an account? <Link to="/signup">Sign up> </Link>
+						  </div>
+						</div>
+					</div>
+				</div>
+			</section>
+		);
+	}
+}
+
+function mapStateToProps(state) {
+  return {
+    products: state.preOrderCart.products
+ }
+}
+
+export default connect(mapStateToProps, { getPreOrderCart })(LogIn);
