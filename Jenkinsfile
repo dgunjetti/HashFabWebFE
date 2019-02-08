@@ -37,6 +37,8 @@ spec:
       steps {
         container('fe-build') {
           sh 'cd FE'
+          sh 'pwd'
+          sh 'ls'
           sh 'npm i'
           sh 'npm run build'
           sh 'cd ../'
