@@ -36,7 +36,8 @@ spec:
     stage('Build') { 
       steps {
         container('fe-build') {
-
+          npm i
+          npm run build
           sh 'docker build -t dgunjetti/hashfab-fe .'
           sh 'cat /etc/docker-cred/password | docker login -u `cat /etc/docker-cred/username` --password-stdin'
           sh 'docker push dgunjetti/hashfab-fe'
