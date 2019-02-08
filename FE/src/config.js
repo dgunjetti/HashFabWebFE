@@ -8,7 +8,7 @@ if (process.env.REACT_APP_PRODUCTION) {
     'googleAuth' : {
       'clientID'  : '955596765274-c3g2pfp32qk74t9soghdfd3u93tabcpo.apps.googleusercontent.com',
   	},
-    'apiServer' : 'ab55ec877212411e99c2f02345d219de-1898918609.ap-south-1.elb.amazonaws.com',
+    'apiServer' : 'testapi.hashfab.in',
   };
 } else {
   module.exports = {
