@@ -13,7 +13,7 @@ metadata:
 spec:
   containers:
   - name: fe-build
-    image: docker
+    image: dgunjetti/dockernode
     command:
     - cat
     tty: true
@@ -36,6 +36,7 @@ spec:
     stage('Build') { 
       steps {
         container('fe-build') {
+
           sh 'docker build -t dgunjetti/hashfab-fe .'
           sh 'cat /etc/docker-cred/password | docker login -u `cat /etc/docker-cred/username` --password-stdin'
           sh 'docker push dgunjetti/hashfab-fe'
