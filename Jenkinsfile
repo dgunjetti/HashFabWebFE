@@ -38,11 +38,11 @@ spec:
         container('fe-build') {
           dir('FE') {
             sh 'pwd'
+            sh 'ls'
+            sh 'npm i'
+            sh 'npm run build'
           }
-          sh 'ls'
-          sh 'npm i'
-          sh 'npm run build'
-          sh 'cd ../'
+
           sh 'docker build -t dgunjetti/hashfab-fe .'
           sh 'cat /etc/docker-cred/password | docker login -u `cat /etc/docker-cred/username` --password-stdin'
           sh 'docker push dgunjetti/hashfab-fe'
