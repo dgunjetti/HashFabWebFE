@@ -36,8 +36,9 @@ spec:
     stage('Build') { 
       steps {
         container('fe-build') {
-          sh 'cd FE'
-          sh 'pwd'
+          dir('FE') {
+            sh 'pwd'
+          }
           sh 'ls'
           sh 'npm i'
           sh 'npm run build'
