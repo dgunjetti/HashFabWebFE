@@ -54,7 +54,7 @@ class Navbar extends Component {
       </Media>
 		);
 	}
-	
+
 	renderForDesktop = (count, total, currentUser) => {
 		return (
 			<nav className="navbar navbar-expand navbar-light fixed-top py-2">
