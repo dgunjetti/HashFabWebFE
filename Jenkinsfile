@@ -43,9 +43,9 @@ spec:
             sh 'npm run build'
           }
 
-          sh 'docker build -t dgunjetti/hashfab-fe .'
+          sh 'docker build -t dgunjetti/hashfab-fe:1.2 .'
           sh 'cat /etc/docker-cred/password | docker login -u `cat /etc/docker-cred/username` --password-stdin'
-          sh 'docker push dgunjetti/hashfab-fe'
+          sh 'docker push dgunjetti/hashfab-fe:1.2'
         }               
       }
     }
